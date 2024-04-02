@@ -14,6 +14,12 @@ func Start(cmd *exec.Cmd) error {
 		return err
 	}
 
+	// Go find the slave device:
+	s := GetPTS(m)
+
+	defer m.Close()
+
+	fmt.Printf("%v\n", s)
 	fmt.Printf("%v\n", m)
 	return nil
 }
