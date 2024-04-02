@@ -1,22 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"os"
+	"os/exec"
+
+	"pty/cmd"
 )
 
 // func Start(c *exec.Cmd) error {
 func main() {
-	// c := exec.Command("/bin/bash")
-	// Get pseudoterminal master from /dev/ptmx
-	m, err := os.OpenFile("/dev/ptmx", os.O_RDONLY, 0666)
+	c := exec.Command("/bin/bash")
+	err := cmd.Start(c)
 	if err != nil {
-		log.Fatalf("Error: %v\n", err)
+		log.Fatalf("Error starting PTY: %v\n", err)
 	}
-
-	fmt.Printf("%v\n", m)
-
 }
 
 /*
