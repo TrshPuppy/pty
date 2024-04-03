@@ -30,6 +30,7 @@ import (
 )
 
 func GetPTSName(f *os.File) string {
+	// Using CGo to call ptsname_r() which is part of stdlib.h. We need this to get the slave device file name.
 	i := f.Fd()
 	name := C.GoString(C.getPTSn(C.ulong(i)))
 
