@@ -17,10 +17,13 @@ func Start(cmd *exec.Cmd) error {
 		return err
 	}
 
-	// Go find the slave device:
-	s := cgo.GetPTSName(m)
-
 	defer m.Close()
+
+	// Get the name of the slave device:
+	s, err := cgo.GetPTSName(m)
+	if err != nil {
+		return err
+	}
 
 	fmt.Printf("%v\n", s)
 	fmt.Printf("%v\n", m)
