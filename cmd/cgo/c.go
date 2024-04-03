@@ -1,4 +1,4 @@
-package cmd
+package cgo
 
 // #include <stdlib.h>
 // #include <stdint.h>
@@ -29,7 +29,7 @@ import (
 	"os"
 )
 
-func GetPTS(f *os.File) string {
+func GetPTSName(f *os.File) string {
 	i := f.Fd()
 	name := C.GoString(C.getPTSn(C.ulong(i)))
 

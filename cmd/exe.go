@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	// local mods:
+	"pty/cmd/cgo"
 )
 
 func Start(cmd *exec.Cmd) error {
@@ -15,7 +18,7 @@ func Start(cmd *exec.Cmd) error {
 	}
 
 	// Go find the slave device:
-	s := GetPTS(m)
+	s := cgo.GetPTSName(m)
 
 	defer m.Close()
 
