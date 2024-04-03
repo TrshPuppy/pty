@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 
@@ -9,23 +8,34 @@ import (
 	"pty/cmd/cgo"
 )
 
-func Start(cmd *exec.Cmd) error {
+func Start(c *exec.Cmd) error {
 
 	// Get pseudoterminal master from /dev/ptmx
-	m, err := os.OpenFile("/dev/ptmx", os.O_RDONLY, 0666)
+	mptr, err := os.OpenFile("/dev/ptmx", os.O_RDONLY, 0666)
 	if err != nil {
 		return err
 	}
 
-	defer m.Close()
+	defer mptr.Close()
 
 	// Get the name of the slave device:
-	s, err := cgo.GetPTSName(m)
+	sname, err := cgo.GetPTSName(mptr)
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("%v\n", s)
-	fmt.Printf("%v\n", m)
+	// Now that we have the name, we have to call grantpt() & unlockpt():
+	err = cgo.GrantPT(mptr)
+	if err != nil {
+		return err
+	}
+
+	err = cgo.UnlockPt(mptr)
+	if err != nil {
+		return err
+	}
+
+	// Now that permission is granted, and the slave is unlocked, we can open the pts device file:
+
 	return nil
 }
