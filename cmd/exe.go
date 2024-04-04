@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -34,8 +35,7 @@ func Start(c *exec.Cmd) error {
 	if err != nil {
 		return err
 	}
-
+	fmt.Printf("PTS name: %s\n", sname)
 	// Now that permission is granted, and the slave is unlocked, we can open the pts device file:
-
 	return nil
 }
