@@ -1,3 +1,3 @@
-module github.com/trshpuppy/pty
+module github.com/trshpuppy/pty/v1
 
 go 1.22.1
